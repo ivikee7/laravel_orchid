@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\StudentClass;
+use App\Models\StudentSection;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -31,5 +33,26 @@ class DatabaseSeeder extends Seeder
                 "platform.index" => "1",
             ),
         ]);
+
+        StudentClass::create(['name' => 'Nursery', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentClass::create(['name' => 'LKG', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentClass::create(['name' => 'UKG', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentClass::create(['name' => 'STD-1', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentClass::create(['name' => 'STD-2', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentClass::create(['name' => 'STD-3', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentClass::create(['name' => 'STD-4', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentClass::create(['name' => 'STD-5', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentClass::create(['name' => 'STD-6', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentClass::create(['name' => 'STD-7', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentClass::create(['name' => 'STD-8', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentClass::create(['name' => 'STD-9', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentClass::create(['name' => 'STD-10', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentClass::create(['name' => 'STD-11', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentClass::create(['name' => 'STD-12', 'creator_id' => 1, 'updater_id' => 1]);
+
+        StudentSection::create(['name' => 'Harmony', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentSection::create(['name' => 'Empathy', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentSection::create(['name' => 'Integrity', 'creator_id' => 1, 'updater_id' => 1]);
+        StudentSection::create(['name' => 'Courage', 'creator_id' => 1, 'updater_id' => 1]);
     }
 }
