@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\Where;
 use Orchid\Filters\Types\WhereDateStartEnd;
@@ -9,6 +11,8 @@ use Orchid\Platform\Models\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -47,11 +51,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $allowedFilters = [
-           'id'         => Where::class,
-           'name'       => Like::class,
-           'email'      => Like::class,
-           'updated_at' => WhereDateStartEnd::class,
-           'created_at' => WhereDateStartEnd::class,
+        'id'         => Where::class,
+        'name'       => Like::class,
+        'email'      => Like::class,
+        'updated_at' => WhereDateStartEnd::class,
+        'created_at' => WhereDateStartEnd::class,
     ];
 
     /**
@@ -66,4 +70,9 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
     ];
+
+    public function student(): HasOne
+    {
+        return $this->hasOne(Student::class);
+    }
 }
