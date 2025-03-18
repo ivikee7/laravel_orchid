@@ -15,6 +15,7 @@ use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\SchoolManagementSystem;
+use App\Orchid\Screens\User\Student\StudentCreateScreen;
 use App\Orchid\Screens\User\Student\StudentEditScreen;
 use App\Orchid\Screens\User\Student\StudentListScreen;
 use App\Orchid\Screens\User\Student\StudentViewScreen;
@@ -109,23 +110,33 @@ Route::screen('roles', RoleListScreen::class)
 
 // SchoolManagementSystem
 
-Route::screen('school-management-system/students', StudentListScreen::class)
-    ->name('platform.school-management-system.students')
-    ->breadcrumbs(fn(Trail $trail) => $trail
-        ->parent('platform.index')
-        ->push(__('Students'), route('platform.school-management-system.students')));
-Route::screen('school-management-system/student', StudentViewScreen::class)
-    ->name('platform.school-management-system.student')
-    ->breadcrumbs(fn(Trail $trail) => $trail
-        ->parent('platform.index')
-        ->push(__('Student'), route('platform.school-management-system.student')));
-Route::screen('school-management-system/student/{student_user_id}/edit', StudentEditScreen::class)
-    ->name('platform.school-management-system.student.edit')
-    ->breadcrumbs(fn(Trail $trail) => $trail
-        ->parent('platform.index')
-        ->push(__('Student/{student_user_id}/edit'), route('platform.school-management-system.students')));
-Route::screen('school-management-system/student/create', StudentEditScreen::class)
-    ->name('platform.school-management-system.student.create')
-    ->breadcrumbs(fn(Trail $trail) => $trail
-        ->parent('platform.index')
-        ->push(__('Student/create'), route('platform.school-management-system.student.create')));
+Route::group(['prefix' => 'school-management-system'], function () {
+    Route::screen('students', StudentListScreen::class)
+        ->name('platform.school-management-system.students')
+        ->breadcrumbs(
+            fn(Trail $trail) => $trail
+                ->parent('platform.index')
+                ->push(__('Students'), route('platform.school-management-system.students'))
+        );
+    Route::screen('student/{student_user_id}', StudentViewScreen::class)
+        ->name('platform.school-management-system.student')
+        ->breadcrumbs(
+            fn(Trail $trail) => $trail
+                ->parent('platform.school-management-system.students')
+                ->push(__('Student'), route('platform.school-management-system.students'))
+        );
+    Route::screen('student/create', StudentCreateScreen::class)
+        ->name('platform.school-management-system.student.create')
+        ->breadcrumbs(
+            fn(Trail $trail) => $trail
+            ->parent('platform.school-management-system.students')
+                ->push(__('Create Student'), route('platform.school-management-system.students'))
+        );
+    Route::screen('student/{student_user_id}/edit', StudentEditScreen::class)
+        ->name('platform.school-management-system.student.edit')
+        ->breadcrumbs(
+            fn(Trail $trail) => $trail
+            ->parent('platform.school-management-system.students')
+                ->push(__('Edit Student'), route('platform.school-management-system.students'))
+        );
+});

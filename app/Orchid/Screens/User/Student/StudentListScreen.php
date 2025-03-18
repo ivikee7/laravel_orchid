@@ -2,8 +2,11 @@
 
 namespace App\Orchid\Screens\User\Student;
 
+use App\Models\Student;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
 use Orchid\Support\Facades\Layout;
@@ -18,9 +21,12 @@ class StudentListScreen extends Screen
     public function query(): iterable
     {
         return [
-            'users' => User::with('roles')
-                ->with('student')
-                ->with('student.promotions')
+            'users' => Student::with(['user', 'user.roles:name', 'promotion'])
+                ->wherehas('user', function ($user) {
+                    return $user->wherehas('roles', function ($roles) {
+                        return $roles->where('name', 'Student');
+                    });
+                })
                 ->defaultSort('id', 'desc')
                 ->paginate(),
         ];
@@ -59,15 +65,22 @@ class StudentListScreen extends Screen
     {
         return [
             Layout::table('users', [
-                TD::make('id')->sort(),
-                TD::make('name')->sort(),
-                TD::make('role.name')->sort(),
-                TD::make('student.id')->sort(),
-                TD::make('student.promotions.class')->sort(),
-                TD::make('student.name')->sort(),
-                TD::make('created_at')->sort(),
-                TD::make('created_at')->sort(),
-                TD::make('updated_at')->sort(),
+                TD::make('user.id', 'ID')->sort(),
+                TD::make('user.name', 'Name')->sort(),
+                TD::make('user.roles', 'Role')->sort(),
+                TD::make('promotion.class.name', 'Class')->sort(),
+                TD::make('promotion.section.name', 'Section')->sort(),
+                TD::make('user.created_at', 'Created At')
+                    ->defaultHidden()
+                    ->sort(),
+                TD::make('user.updated_at', 'Updated At')
+                    ->defaultHidden()
+                    ->sort(),
+                TD::make()
+                    ->render(fn($user) => Group::make([
+                        Link::make('Show')->route('platform.school-management-system.student', $user),
+                        Link::make('Edit')->route('platform.school-management-system.student.edit', $user),
+                    ])),
             ]),
         ];
     }

@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Student;
 use App\Models\StudentClass;
+use App\Models\StudentPromotion;
 use App\Models\StudentSection;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -33,6 +35,28 @@ class DatabaseSeeder extends Seeder
                 "platform.index" => "1",
             ),
         ]);
+        User::factory()->create([
+            'name' => 'user',
+            'email' => 'user@gmail.com',
+            'password' => Hash::make('password'),
+            'permissions' => array(
+                "platform.systems.attachment" => "1",
+                "platform.systems.roles" => "0",
+                "platform.systems.users" => "0",
+                "platform.index" => "1",
+            ),
+        ]);
+        User::factory()->create([
+            'name' => 'student',
+            'email' => 'student@gmail.com',
+            'password' => Hash::make('password'),
+            'permissions' => array(
+                "platform.systems.attachment" => "1",
+                "platform.systems.roles" => "0",
+                "platform.systems.users" => "0",
+                "platform.index" => "1",
+            ),
+        ]);
 
         StudentClass::create(['name' => 'Nursery', 'creator_id' => 1, 'updater_id' => 1]);
         StudentClass::create(['name' => 'LKG', 'creator_id' => 1, 'updater_id' => 1]);
@@ -54,5 +78,11 @@ class DatabaseSeeder extends Seeder
         StudentSection::create(['name' => 'Empathy', 'creator_id' => 1, 'updater_id' => 1]);
         StudentSection::create(['name' => 'Integrity', 'creator_id' => 1, 'updater_id' => 1]);
         StudentSection::create(['name' => 'Courage', 'creator_id' => 1, 'updater_id' => 1]);
+
+        Student::create(['user_id' => 2, 'creator_id' => 1, 'updater_id' => 1]);
+        Student::create(['user_id' => 3, 'creator_id' => 1, 'updater_id' => 1]);
+
+        StudentPromotion::create(['student_id' => 1, 'class_id' => 1, 'section_id' => 1, 'creator_id' => 1, 'updater_id' => 1]);
+        StudentPromotion::create(['student_id' => 2, 'class_id' => 1, 'section_id' => 1, 'creator_id' => 1, 'updater_id' => 1]);
     }
 }

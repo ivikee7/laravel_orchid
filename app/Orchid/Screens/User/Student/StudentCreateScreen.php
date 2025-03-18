@@ -4,7 +4,7 @@ namespace App\Orchid\Screens\User\Student;
 
 use Orchid\Screen\Screen;
 
-class StudentViewScreen extends Screen
+class StudentCreateScreen extends Screen
 {
     /**
      * Fetch data to be displayed on the screen.
@@ -23,7 +23,7 @@ class StudentViewScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'Student';
+        return 'Student Create';
     }
 
     /**

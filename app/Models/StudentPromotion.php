@@ -15,16 +15,16 @@ class StudentPromotion extends Model
 
     public function student(): BelongsTo
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Student::class, 'student_id', 'id');
     }
 
     public function class(): BelongsTo
     {
-        return $this->belongsTo(StudentClass::class);
+        return $this->belongsTo(StudentClass::class, 'class_id', 'id');
     }
 
     public function section(): BelongsTo
     {
-        return $this->belongsTo(StudentSection::class);
+        return $this->belongsTo(StudentSection::class, 'section_id', 'id');
     }
 }
