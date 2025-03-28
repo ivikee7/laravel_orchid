@@ -76,6 +76,7 @@ class User extends Authenticatable
 
     public function student(): HasOne
     {
-        return $this->hasOne(Student::class, 'id', 'user_id');
+        return $this->hasOne(Student::class, 'id', 'user_id')
+            ->where('user.roles.name', 'Student');
     }
 }

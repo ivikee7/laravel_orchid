@@ -2,8 +2,9 @@
 
 namespace App\Orchid\Screens\User\Student;
 
-use App\Models\Student;
 use App\Models\User;
+use App\Orchid\Layouts\User\UserFiltersLayout;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Group;
@@ -21,12 +22,7 @@ class StudentListScreen extends Screen
     public function query(): iterable
     {
         return [
-            'users' => Student::with(['user', 'user.roles:name', 'promotion'])
-                ->wherehas('user', function ($user) {
-                    return $user->wherehas('roles', function ($roles) {
-                        return $roles->where('name', 'Student');
-                    });
-                })
+            'users' => User::with('student', 'student.promotion', 'roles')
                 ->defaultSort('id', 'desc')
                 ->paginate(),
         ];
@@ -65,15 +61,21 @@ class StudentListScreen extends Screen
     {
         return [
             Layout::table('users', [
-                TD::make('user.id', 'ID')->sort(),
-                TD::make('user.name', 'Name')->sort(),
-                TD::make('user.roles', 'Role')->sort(),
-                TD::make('promotion.class.name', 'Class')->sort(),
-                TD::make('promotion.section.name', 'Section')->sort(),
-                TD::make('user.created_at', 'Created At')
+                TD::make('id', 'ID')->sort(),
+                TD::make('name', 'Name')->sort(),
+                TD::make('roles', 'Roles')->render(function ($q) {
+                    $roles = '';
+                    foreach ($q->roles as $role) {
+                        $roles .= $role->name . ', ';
+                    }
+                    return $roles;
+                }),
+                TD::make('student.promotion.class.name', 'Class')->sort(),
+                TD::make('student.promotion.section.name', 'Section')->sort(),
+                TD::make('created_at', 'Created At')
                     ->defaultHidden()
                     ->sort(),
-                TD::make('user.updated_at', 'Updated At')
+                TD::make('updated_at', 'Updated At')
                     ->defaultHidden()
                     ->sort(),
                 TD::make()
